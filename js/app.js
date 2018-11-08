@@ -38,6 +38,7 @@ function shuffle(array) {
 
 let moveCount = 0;
 let stars = document.querySelectorAll(".stars li");
+let starCount = 3;
 let allCards = document.querySelectorAll('.card');
 let openMatchedCards = [];
 let openUnmatchedCards = [];
@@ -65,12 +66,18 @@ function handleMatch(card1, card2) {
         setTimeout(function () {
             card1.classList.remove('open', 'show');
             card2.classList.remove('open', 'show');
-        }, 300);
+        }, 1000);
 
     }
 }
 
-
+function congratsPlayer(){  
+    document.querySelector(".modal").style.display = "block";
+    document.querySelector(".game-summary").textContent = `You won ${starCount} stars in ${moveCount} moves and took ${timerCount} seconds`;   
+    // document.querySelector('.total-moves').innerHTML = `Total moves : ${moveCount}`;
+    // document.querySelector('.elapsed-time').innerHTML = `Elapsed time : ${timerCount} seconds`;
+    // document.querySelector('.star-count').innerHTML = `Score : ${starCount} `;
+}
 
 function myCounter() {
     document.getElementById("timer").innerHTML = `${++timerCount} seconds`;
@@ -80,7 +87,8 @@ function turn(e) {
     if (moveCount === 0) {
         myTimer = setInterval(myCounter, 1000);
     }
-    moveCount++;
+    if(e.target.classList.contains('match') == false)
+        moveCount++;
     //display incremented moveCount
     document.querySelector(".moves").textContent = moveCount;
 
@@ -99,7 +107,7 @@ function turn(e) {
         if (openMatchedCards.length === 16) {
             //stop timer
             clearInterval(myTimer);
-            //congratsPlayer();
+            congratsPlayer();
         }
         openUnmatchedCards.pop();
         openUnmatchedCards.pop();
@@ -109,12 +117,15 @@ function turn(e) {
     //one star will fade away after 16, 32 and 48 moves.
     if (moveCount == 17) {
         stars[0].style.display = "none";
+        starCount--;
     }
     else if (moveCount == 33) {
         stars[1].style.display = "none";
+        starCount--;
     }
     else if (moveCount == 49) {
         stars[2].style.display = "none";
+        starCount--;
     }
 }
 
@@ -125,9 +136,7 @@ for (card of allCards) {
     card.addEventListener('click', turn);
 }
 
-//add event listener for restart 
-let restartButton = document.querySelector(".restart");
-restartButton.addEventListener('click', function () {
+function restart() {
     //reset cards
     for (card of allCards) {
         card.classList.remove('open', 'show', 'match');
@@ -151,4 +160,22 @@ restartButton.addEventListener('click', function () {
         openUnmatchedCards.pop();
     }
     //shuffle deck
+    /*
+    *This is based on Fisher–Yates shuffle, and exploits the fact that when you append a node, it's moved from its old place.
+    *Performance is within 10% of shuffling a detached copy even on huge lists (100 000 elements).
+    */
+    var ul = document.querySelector('.deck');
+    for (var i = ul.children.length; i >= 0; i--) {
+        ul.appendChild(ul.children[Math.random() * i | 0]);
+    }
+}
+
+//add event listener for restart 
+let restartButton = document.querySelector(".restart");
+restartButton.addEventListener('click', restart);
+
+let playAgain = document. querySelector('#play-again');
+playAgain.addEventListener('click',function(){
+    document. querySelector('#myModal').style.display = 'none';
+    restart();
 });

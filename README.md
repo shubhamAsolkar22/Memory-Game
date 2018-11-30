@@ -1,9 +1,9 @@
 # Memory Game Project
-
+This repository basically contains a project that I completed as a part of my Udacity Nanodegree.The game consists of 16 cards which are inverted and we need to flip the cards to find out the picture behind the cards.
 ## Table of Contents
 
 * [Instructions](#instructions)
-* [Contributing](#contributing)
+* [Bugs](#bugs)
 
 ## Instructions
 
@@ -13,11 +13,5 @@ To get started, open `js/app.js` and start building out the app's functionality
 
 For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
 
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
-
-##Bugs
+## Bugs
 * Double clicking makes the card green - Resolved
